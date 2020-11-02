@@ -1,0 +1,11 @@
+.players-list-container {
+  .players-list-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 20px 0;
+  }
+
+  .players-list-table {
+    padding: 10px;
+  }
+}

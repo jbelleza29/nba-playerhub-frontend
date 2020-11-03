@@ -4,7 +4,7 @@ interface Player {
   height_inches?: number;
   first_name: string;
   last_name: string;
-  position: string;
+  position?: string;
   weight_pounds?: number;
   team: Team;
 }

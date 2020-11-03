@@ -43,7 +43,6 @@ export default function CustomTable({
           <Space size='middle'>
             {
               actions && actions.map((action: TableAction) => {
-                console.log(action.danger);
                 return (
                   <Tooltip title={action.tooltip} key={action.tooltip}>
                     <div>

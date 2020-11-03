@@ -5,6 +5,7 @@ import MainLayout from 'layouts/MainLayout';
 import axios from 'api/axiosConfig';
 import Button from 'components/Button/Button';
 import Table, { TableAction } from 'components/Table/Table';
+import CreateModal from 'components/Modal/CreatePlayerModal';
 import { playersColumn } from 'constants/players';
 
 import './players-list.scss';
@@ -12,6 +13,7 @@ import './players-list.scss';
 export default function PlayersList(): ReactElement {
   const [players, setPlayers] = useState<Player[]>([]);
   const [selected, setSelected] = useState<any>();
+  const [modal, setModal] = useState('');
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
@@ -38,7 +40,11 @@ export default function PlayersList(): ReactElement {
   }
 
   const showCreate = (): void => {
-    console.log('show crate');
+    setModal('create');
+  }
+
+  const closeModal = (): void => {
+    setModal('');
   }
 
   const viewPlayer = useCallback((e: SyntheticEvent, key: any): void => {
@@ -73,6 +79,11 @@ export default function PlayersList(): ReactElement {
 
   return (
     <MainLayout>
+      <CreateModal 
+        visible={modal === 'create'}
+        onCancel={closeModal}
+        onOk={closeModal} 
+      />
       <div className='players-list-container'>
         <div className='players-list-header'>
           <h2>Players</h2>

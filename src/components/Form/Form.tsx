@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
-import { FormProps } from 'antd/lib/form';
-import { Form, Input, InputNumber } from 'antd';
+import Form, { FormProps } from 'antd/lib/form';
 import FormItems from 'components/Form/FormItems';
 
 export interface FormBaseProps extends Omit<FormProps, 'onChange'> {
@@ -16,7 +15,8 @@ export default function FormBase({
   className,
   initialValues,
   onChange,
-  form
+  form,
+  onFinish
 }: FormBaseProps): ReactElement {
   return (
     <Form 
@@ -25,6 +25,7 @@ export default function FormBase({
       fields={formItems}
       initialValues={initialValues}
       form={form}
+      onFinish={onFinish}
     >
       {children  ? children : <FormItems formItems={formItems} onChange={onChange} />}
     </Form>

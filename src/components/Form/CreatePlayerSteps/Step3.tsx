@@ -20,8 +20,6 @@ export default function Step3({ form }: Step3Props): ReactElement {
   useEffect(() => {
     axios.get('/teams')
       .then((res) => {
-        console.log(res.data.data);
-        console.log(res.data.data[0].abbreviation);
         setTeams(res.data.data);
       })
       .catch((err) => {
@@ -33,7 +31,6 @@ export default function Step3({ form }: Step3Props): ReactElement {
   }, []);
 
   const handleChange = (value: any) => {
-    console.log(value);
     setSelected(value);
   }
 

@@ -11,6 +11,7 @@ export interface ModalProps {
   okText?: string | React.ReactNode;
   confirmLoading?: boolean;
   footer?: React.ReactNode;
+  destroyOnClose?: boolean;
 }
 
 export default function ModalBase({ 
@@ -22,7 +23,8 @@ export default function ModalBase({
   cancelText,
   okText,
   confirmLoading,
-  footer
+  footer,
+  destroyOnClose,
 }: ModalProps): ReactElement {
   return (
     <Modal 
@@ -34,6 +36,7 @@ export default function ModalBase({
       okText={okText}
       confirmLoading={confirmLoading}
       footer={footer}
+      destroyOnClose={destroyOnClose}
     >
       {children}
     </Modal>

@@ -1,6 +1,6 @@
 import React, { ReactElement, SyntheticEvent, useEffect, useState, useCallback } from 'react';
-import { DeleteOutlined, EyeFilled, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { DeleteOutlined, EyeFilled, ExclamationCircleOutlined, EditOutlined } from '@ant-design/icons';
+import { Modal, message } from 'antd';
 
 import MainLayout from 'layouts/MainLayout';
 import axios from 'api/axiosConfig';
@@ -33,23 +33,33 @@ export default function PlayersList(): ReactElement {
       })
   }, [])
 
-  const showEdit = (e: any): void => {
-    console.log(e);
-    console.log('edit');
+  const formatToFormData = (player: Player | undefined): Object | undefined => {
+    if(player)
+      return {
+        ...player,
+        team: player.team.abbreviation
+      }
   }
+
+  const showEdit = useCallback((e: SyntheticEvent, key: any): void => {
+    const player = players.find((x) => x.id === key);
+    setSelected(formatToFormData(player));
+    setModal('edit');
+  }, [players])
 
   const showCreate = (): void => {
     setModal('create');
   }
 
   const closeModal = (): void => {
+    setSelected({});
     setModal('');
   }
 
   const viewPlayer = useCallback((e: SyntheticEvent, key: any): void => {
     // Show view player modal
     const player = players.find((x) => x.id === key);
-    setSelected(player)
+    setSelected(player);
     setModal('view');
   }, [players])
 
@@ -57,20 +67,28 @@ export default function PlayersList(): ReactElement {
     console.log(pagination, filters, sorter);
   }
 
-  const showDelete = (): void => {
+  const showDelete = (e: SyntheticEvent, key: any): void => {
     confirm({
       title: 'Delete Player',
       icon: <ExclamationCircleOutlined />,
       content: 'Do you want to delete this player?',
       okType: 'danger',
       okText: 'Yes',
-      onOk() { onDelete(); } ,
+      onOk() { return onDelete(key); } ,
       onCancel() {},
     });
   }
 
-  const onDelete = (): void => {
-    console.log('delete');
+  const onDelete = (key: number): Promise<void> => {
+    return axios.get(`/players/${key}`)
+      .then(() => {
+        message.success('Player deleted!');
+        let tempPlayers = [...players];
+        setPlayers(tempPlayers.filter((x) => x.id !== key));
+      })
+      .catch(() => {
+        message.error('Failed to delete player');
+      })
   }
 
   const actions: TableAction[] = [
@@ -82,6 +100,15 @@ export default function PlayersList(): ReactElement {
       shape: 'circle',
       icon: <EyeFilled />,
       onClick: viewPlayer
+    },
+    {
+      key: 'id',
+      tooltip: 'Edit',
+      component: 'button',
+      type: 'default',
+      shape: 'circle',
+      icon: <EditOutlined />,
+      onClick: showEdit
     },
     {
       key: 'id',
@@ -99,11 +126,16 @@ export default function PlayersList(): ReactElement {
 
   return (
     <MainLayout>
-      <CreateModal 
-        visible={modal === 'create'}
-        onCancel={closeModal}
-        onOk={closeModal} 
-      />
+      {
+        modal === 'create' || modal === 'edit' ?
+        <CreateModal 
+          visible={modal === 'create' || modal === 'edit'}
+          onCancel={closeModal}
+          onOk={closeModal} 
+          initialValue={selected}
+          type={modal}
+        /> : null
+      }
       {modal === 'view' ?
       <ViewPlayerModal 
         visible={modal === 'view'}

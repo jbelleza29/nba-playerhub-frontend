@@ -8,9 +8,11 @@ import axios from 'api/axiosConfig';
 
 interface CreatePlayerProps extends Omit<ModalProps, 'children' | 'onCancel'> {
   onCancel: () => void;
+  initialValue: Player;
+  type?: 'create' | 'edit'
 }
 
-export default function CreatePlayerModal({ visible, onCancel, onOk }: CreatePlayerProps): ReactElement {
+export default function CreatePlayerModal({ visible, onCancel, onOk, initialValue, type }: CreatePlayerProps): ReactElement {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -36,11 +38,19 @@ export default function CreatePlayerModal({ visible, onCancel, onOk }: CreatePla
           resolve(data);
       }, timeout);
     });
-
-    setLoading(true);
-    await delay(values, 2000);
-    setLoading(false);
-    setCurrent(current + 1);
+    if(type === 'create'){
+      // Do something for create
+      setLoading(true);
+      await delay(values, 2000);
+      setLoading(false);
+      setCurrent(current + 1);
+    } else if(type === 'edit'){
+      // Do something for edit
+      setLoading(true);
+      await delay(values, 2000);
+      setLoading(false);
+      setCurrent(current + 1);
+    }
   }
 
   const validate = (): void => {
@@ -82,6 +92,7 @@ export default function CreatePlayerModal({ visible, onCancel, onOk }: CreatePla
     <Modal 
       visible={visible}
       onCancel={onClose}
+      destroyOnClose
       footer={[
         <Space> 
           <Button 
@@ -107,7 +118,13 @@ export default function CreatePlayerModal({ visible, onCancel, onOk }: CreatePla
           <Step key={item.title} title={item.title} />
         ))}
       </Steps>
-      <CreatePlayerForm currentStep={current} form={form} onFinish={onSubmit} />
+      <CreatePlayerForm 
+        currentStep={current}
+        form={form}
+        onFinish={onSubmit}
+        initialValues={initialValue}
+        preserve={false}
+      />
     </Modal>
   )
 }

@@ -24,7 +24,7 @@ export default function ModalBase({
   okText,
   confirmLoading,
   footer,
-  destroyOnClose,
+  destroyOnClose
 }: ModalProps): ReactElement {
   return (
     <Modal 

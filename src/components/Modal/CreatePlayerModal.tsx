@@ -29,8 +29,6 @@ export default function CreatePlayerModal({ visible, onCancel, onOk }: CreatePla
   ];
 
   const onSubmit = async (values: any): Promise<void> => {
-    console.log('submit', values);
-  
     // axios.post('/players', values)
     const delay = async (data: any, timeout: number): Promise<void> => 
       await new Promise((resolve) => {
@@ -63,7 +61,6 @@ export default function CreatePlayerModal({ visible, onCancel, onOk }: CreatePla
   }
 
   const onNext = (): void => {
-    console.log(form.getFieldsValue(), 'values');
     if(current === steps.length - 1){
       form.submit();
     } else {

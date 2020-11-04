@@ -48,7 +48,7 @@ export default function PlayersList(): ReactElement {
   }
 
   const viewPlayer = useCallback((e: SyntheticEvent, key: any): void => {
-    console.log(e.currentTarget, key, 'viewwww')
+    // Show view player modal
   }, [])
 
   const handleTableChange = (pagination: any, filters: any, sorter: any): void => {

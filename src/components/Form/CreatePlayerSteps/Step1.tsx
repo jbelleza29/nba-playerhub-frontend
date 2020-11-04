@@ -19,7 +19,6 @@ export default function Step1(): ReactElement {
     {
       label: 'Height (ft)',
       name: 'height_feet',
-      rules: [{ required: true, message: 'Height is required' }],
       type: 'number',
       min: 5,
       max: 8,
@@ -28,7 +27,6 @@ export default function Step1(): ReactElement {
     {
       label: 'Weight (lbs)',
       name: 'weight_pounds',
-      rules: [{ required: true, message: 'Weight is required' }],
       type: 'number',
       min: 90,
       max: 300,

@@ -1,11 +1,13 @@
 import React, { ReactElement, SyntheticEvent, useEffect, useState, useCallback } from 'react';
-import { DeleteOutlined, EyeFilled } from '@ant-design/icons';
+import { DeleteOutlined, EyeFilled, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 
 import MainLayout from 'layouts/MainLayout';
 import axios from 'api/axiosConfig';
 import Button from 'components/Button/Button';
 import Table, { TableAction } from 'components/Table/Table';
 import CreateModal from 'components/Modal/CreatePlayerModal';
+import ViewPlayerModal from 'components/Modal/ViewPlayerModal';
 import { playersColumn } from 'constants/players';
 
 import './players-list.scss';
@@ -15,6 +17,7 @@ export default function PlayersList(): ReactElement {
   const [selected, setSelected] = useState<any>();
   const [modal, setModal] = useState('');
   const [loading, setLoading] = useState(true);
+  const { confirm } = Modal;
   
   useEffect(() => {
     setLoading(true);
@@ -35,10 +38,6 @@ export default function PlayersList(): ReactElement {
     console.log('edit');
   }
 
-  const showDelete = (e: SyntheticEvent): void => {
-    console.log(e.target, 'delete');
-  }
-
   const showCreate = (): void => {
     setModal('create');
   }
@@ -49,10 +48,29 @@ export default function PlayersList(): ReactElement {
 
   const viewPlayer = useCallback((e: SyntheticEvent, key: any): void => {
     // Show view player modal
-  }, [])
+    const player = players.find((x) => x.id === key);
+    setSelected(player)
+    setModal('view');
+  }, [players])
 
   const handleTableChange = (pagination: any, filters: any, sorter: any): void => {
     console.log(pagination, filters, sorter);
+  }
+
+  const showDelete = (): void => {
+    confirm({
+      title: 'Delete Player',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Do you want to delete this player?',
+      okType: 'danger',
+      okText: 'Yes',
+      onOk() { onDelete(); } ,
+      onCancel() {},
+    });
+  }
+
+  const onDelete = (): void => {
+    console.log('delete');
   }
 
   const actions: TableAction[] = [
@@ -77,6 +95,8 @@ export default function PlayersList(): ReactElement {
     }
   ];
 
+
+
   return (
     <MainLayout>
       <CreateModal 
@@ -84,6 +104,13 @@ export default function PlayersList(): ReactElement {
         onCancel={closeModal}
         onOk={closeModal} 
       />
+      {modal === 'view' ?
+      <ViewPlayerModal 
+        visible={modal === 'view'}
+        onCancel={closeModal}
+        onOk={closeModal}
+        player={selected}
+      /> : null }
       <div className='players-list-container'>
         <div className='players-list-header'>
           <h2>Players</h2>

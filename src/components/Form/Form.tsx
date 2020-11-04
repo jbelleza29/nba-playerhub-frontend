@@ -16,7 +16,8 @@ export default function FormBase({
   initialValues,
   onChange,
   form,
-  onFinish
+  onFinish,
+  preserve
 }: FormBaseProps): ReactElement {
   return (
     <Form 
@@ -26,6 +27,7 @@ export default function FormBase({
       initialValues={initialValues}
       form={form}
       onFinish={onFinish}
+      preserve={preserve}
     >
       {children  ? children : <FormItems formItems={formItems} onChange={onChange} />}
     </Form>

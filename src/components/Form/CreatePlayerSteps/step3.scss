@@ -1,0 +1,16 @@
+.step-3-container {
+  .team-select-container {
+    margin: 0 35px;
+
+    .team-select {
+      min-width: 160px;
+      margin-right: 20px;
+    }
+
+    .team-select-image {
+      position: relative;
+      left: 70%;
+      transform: translateX(-50%);
+    }
+  }
+}

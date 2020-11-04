@@ -13,6 +13,8 @@ export interface ButtonProps {
   value?: any;
   icon?: React.ReactNode;
   danger?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
 export default function CustomButton({ 
@@ -24,7 +26,9 @@ export default function CustomButton({
   type, 
   shape,
   icon,
-  danger
+  danger,
+  loading,
+  disabled
  }: ButtonProps): ReactElement {
 
   return (
@@ -38,6 +42,8 @@ export default function CustomButton({
           value={value}
           icon={icon}
           danger={danger}
+          disabled={disabled}
+          loading={loading}
         >
           {text}
         </Button> 

@@ -14,7 +14,8 @@ interface CreatePlayerFormProps extends FormBaseProps {
 export default function CreatePlayerForm({
   currentStep,
   form,
-  onFinish
+  onFinish,
+  initialValues
 }: CreatePlayerFormProps): ReactElement {
   const steps = [
     <Step1 />,
@@ -25,7 +26,7 @@ export default function CreatePlayerForm({
   
   return(
     <div className='create-player-form'>
-      <FormBase form={form} onFinish={onFinish}>
+      <FormBase form={form} onFinish={onFinish} initialValues={initialValues}>
         { steps[currentStep] }
       </FormBase>
     </div>

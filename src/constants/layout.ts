@@ -1,6 +1,7 @@
 export const menuItems = [
   {
     key: 'players',
-    label: 'Players'
+    label: 'Players',
+    path: '/players'
   }
 ]

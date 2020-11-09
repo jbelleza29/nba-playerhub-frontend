@@ -4,7 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import './page-loader.scss';
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
 
 
 export default function PageLoader(): ReactElement {

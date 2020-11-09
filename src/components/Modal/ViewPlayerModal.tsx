@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import { Skeleton, Row, Col, Statistic, Typography } from 'antd';
-import axios from 'api/axiosConfig';
+import externalApi from 'api/externalAxios';
 
 import Modal, { ModalProps } from './Modal';
 
@@ -31,7 +31,7 @@ export default function ViewPlayerModal({
   const fetchPlayer = (): void => {
     setLoading(true);
 
-    axios.get(`/players?search=${player.first_name} ${player.last_name}`)
+    externalApi.get(`/players?search=${player.first_name} ${player.last_name}`)
       .then((res) => {
         fetchStats(res.data.data[0].id);
       })
@@ -42,7 +42,7 @@ export default function ViewPlayerModal({
   }
   
   const fetchStats = (id: number): void => {
-    axios.get(`/season_averages?season=2017&player_ids[]=${id}`)
+    externalApi.get(`/season_averages?season=2017&player_ids[]=${id}`)
       .then((resp) => { 
         setStats(resp.data.data[0]);
       })

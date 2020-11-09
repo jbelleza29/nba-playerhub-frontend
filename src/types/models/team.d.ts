@@ -1,4 +1,5 @@
 interface Team {
+  id: number;
   abbreviation: string;
   conference: string;
   division: string;

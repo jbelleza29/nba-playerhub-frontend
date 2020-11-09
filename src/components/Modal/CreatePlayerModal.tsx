@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { Space, Steps, Form } from 'antd';
+import { Space, Steps, Form, message } from 'antd';
 
 import Modal, { ModalProps } from './Modal';
 import Button from 'components/Button/Button';
@@ -30,26 +30,31 @@ export default function CreatePlayerModal({ visible, onCancel, onOk, initialValu
     }
   ];
 
-  const onSubmit = async (values: any): Promise<void> => {
-    // axios.post('/players', values)
-    const delay = async (data: any, timeout: number): Promise<void> => 
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(data);
-      }, timeout);
-    });
+  const onSubmit = (values: any): void => {
+    setLoading(true);
     if(type === 'create'){
       // Do something for create
-      setLoading(true);
-      await delay(values, 2000);
-      setLoading(false);
-      setCurrent(current + 1);
+      axios.post('/players', values)
+        .then((res) => {
+          setCurrent(current + 1);
+        })
+        .catch((err) => {
+          message.error('Failed to create');
+        })
+        .finally(() => {
+          setLoading(false);
+        })
     } else if(type === 'edit'){
-      // Do something for edit
-      setLoading(true);
-      await delay(values, 2000);
-      setLoading(false);
-      setCurrent(current + 1);
+      axios.put(`/players/${initialValue.id}`, values)
+        .then((res) => {
+          setCurrent(current + 1);
+        })
+        .catch((err) => {
+          message.error('Failed to update');
+        })
+        .finally(() => {
+          setLoading(false);
+        })
     }
   }
 

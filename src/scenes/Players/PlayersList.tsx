@@ -23,7 +23,7 @@ export default function PlayersList(): ReactElement {
     setLoading(true);
     axios.get('/players')
       .then((res) => {
-        setPlayers(res.data.data);
+        setPlayers(res.data);
       })
       .catch((err) => {
         console.log(err);

@@ -9,18 +9,19 @@ import Table, { TableAction } from 'components/Table/Table';
 import CreateModal from 'components/Modal/CreatePlayerModal';
 import ViewPlayerModal from 'components/Modal/ViewPlayerModal';
 import { playersColumn } from 'constants/players';
+import { convertToQuery } from 'utils/queryBuilder';
 
 import './players-list.scss';
-import { convertToQuery } from 'utils/queryBuilder';
 
 export default function PlayersList(): ReactElement {
   const [players, setPlayers] = useState<Player[]>([]);
   const [selected, setSelected] = useState<any>();
   const [modal, setModal] = useState('');
   const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
   const [queryParams, setQueryParams] = useState({
     page: 1,
-    limit: 20,
+    limit: 10,
     column: 'last_name',
     order: 'ascend'
   });
@@ -31,8 +32,9 @@ export default function PlayersList(): ReactElement {
     const url = convertToQuery('/players', queryParams);
     axios.get(url)
       .then((res) => {
-        console.log(res.data);
-        setPlayers(res.data);
+        console.log(res);
+        setTotal(res.data.total);
+        setPlayers(res.data.players);
       })
       .catch((err) => {
         console.log(err);
@@ -170,6 +172,7 @@ export default function PlayersList(): ReactElement {
             actions={actions}
             loading={loading}
             onChange={handleTableChange}
+            pagination={{ total: total }}
           />
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Table, Space, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 
 import Button, { ButtonProps } from 'components/Button/Button';
+import { PaginationConfig, PaginationProps } from 'antd/lib/pagination';
 
 export interface TableAction extends Omit<ButtonProps, 'onClick'> {
   key: string;
@@ -18,6 +19,7 @@ interface TableProps {
   loading: boolean;
   onChange?: (pagination: any, filters: any, sorter: any) => void;
   title?: () => string | React.ReactNode;
+  pagination?: PaginationProps
 }
 
 export default function CustomTable({ 
@@ -26,7 +28,8 @@ export default function CustomTable({
   actions, 
   loading, 
   onChange, 
-  title 
+  title,
+  pagination
 }: TableProps): ReactElement {
 
   const { Column } = Table;
@@ -76,6 +79,7 @@ export default function CustomTable({
         loading={loading}
         onChange={onChange}
         title={title}
+        pagination={pagination}
       >
         {allColumns.map((column: any) => {
           return(

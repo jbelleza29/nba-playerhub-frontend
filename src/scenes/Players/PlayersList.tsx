@@ -11,18 +11,27 @@ import ViewPlayerModal from 'components/Modal/ViewPlayerModal';
 import { playersColumn } from 'constants/players';
 
 import './players-list.scss';
+import { convertToQuery } from 'utils/queryBuilder';
 
 export default function PlayersList(): ReactElement {
   const [players, setPlayers] = useState<Player[]>([]);
   const [selected, setSelected] = useState<any>();
   const [modal, setModal] = useState('');
   const [loading, setLoading] = useState(true);
+  const [queryParams, setQueryParams] = useState({
+    page: 1,
+    limit: 20,
+    column: 'last_name',
+    order: 'ascend'
+  });
   const { confirm } = Modal;
   
   useEffect(() => {
     setLoading(true);
-    axios.get('/players')
+    const url = convertToQuery('/players', queryParams);
+    axios.get(url)
       .then((res) => {
+        console.log(res.data);
         setPlayers(res.data);
       })
       .catch((err) => {
@@ -31,7 +40,7 @@ export default function PlayersList(): ReactElement {
       .finally(() => {
         setLoading(false);
       })
-  }, [])
+  }, [queryParams])
 
   const formatToFormData = (player: Player | undefined): Object | undefined => {
     if(player)
@@ -64,6 +73,12 @@ export default function PlayersList(): ReactElement {
   }, [players])
 
   const handleTableChange = (pagination: any, filters: any, sorter: any): void => {
+    setQueryParams({
+      page: pagination.current,
+      limit: pagination.pageSize,
+      column: sorter.columnKey,
+      order: sorter.order
+    })
     console.log(pagination, filters, sorter);
   }
 

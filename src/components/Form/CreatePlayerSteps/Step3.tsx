@@ -20,7 +20,7 @@ export default function Step3({ form }: Step3Props): ReactElement {
   useEffect(() => {
     axios.get('/teams')
       .then((res) => {
-        setTeams(res.data.data);
+        setTeams(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -31,7 +31,8 @@ export default function Step3({ form }: Step3Props): ReactElement {
   }, []);
 
   const handleChange = (value: any) => {
-    setSelected(value);
+    const team = teams?.find((x) => x.id === value);
+    setSelected(team?.abbreviation);
   }
 
   return (
@@ -53,7 +54,7 @@ export default function Step3({ form }: Step3Props): ReactElement {
               teams && teams.map((team) => 
                 <Option 
                   key={team.abbreviation}
-                  value={team.abbreviation}
+                  value={team.id}
                 >
                   {team.name}
                 </Option>)

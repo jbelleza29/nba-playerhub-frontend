@@ -1,6 +1,6 @@
 import React, { ReactElement, SyntheticEvent, useEffect, useState, useCallback } from 'react';
 import { DeleteOutlined, EyeFilled, ExclamationCircleOutlined, EditOutlined } from '@ant-design/icons';
-import { Modal, message } from 'antd';
+import { Modal, message, Input } from 'antd';
 
 import MainLayout from 'layouts/MainLayout';
 import axios from 'api/axiosConfig';
@@ -14,6 +14,8 @@ import { convertToQuery } from 'utils/queryBuilder';
 import './players-list.scss';
 
 export default function PlayersList(): ReactElement {
+
+  const { Search } = Input;
   const [players, setPlayers] = useState<Player[]>([]);
   const [selected, setSelected] = useState<any>();
   const [modal, setModal] = useState('');
@@ -23,7 +25,8 @@ export default function PlayersList(): ReactElement {
     page: 1,
     limit: 10,
     column: 'last_name',
-    order: 'ascend'
+    order: 'ascend',
+    filter: ''
   });
   const { confirm } = Modal;
   
@@ -76,12 +79,12 @@ export default function PlayersList(): ReactElement {
 
   const handleTableChange = (pagination: any, filters: any, sorter: any): void => {
     setQueryParams({
+      ...queryParams,
       page: pagination.current,
       limit: pagination.pageSize,
       column: sorter.columnKey,
       order: sorter.order
     })
-    console.log(pagination, filters, sorter);
   }
 
   const showDelete = (e: SyntheticEvent, key: any): void => {
@@ -106,6 +109,13 @@ export default function PlayersList(): ReactElement {
       .catch(() => {
         message.error('Failed to delete player');
       })
+  }
+
+  const onSearch = (value: any) => {
+    setQueryParams({
+      ...queryParams,
+      filter: value
+    });
   }
 
   const actions: TableAction[] = [
@@ -139,8 +149,6 @@ export default function PlayersList(): ReactElement {
     }
   ];
 
-
-
   return (
     <MainLayout>
       {
@@ -165,7 +173,18 @@ export default function PlayersList(): ReactElement {
           <h2>Players</h2>
           <Button type='primary' text='Create Player' shape='round' onClick={showCreate} />
         </div>
+        <div>
+        
+        </div>
         <div className='players-list-table'>
+          <div className='table-search'>
+            <Search 
+              placeholder='Search for players/team'
+              onSearch={onSearch}
+              enterButton
+              loading={loading}
+            />
+          </div>
           <Table 
             columns={playersColumn}
             data={players}

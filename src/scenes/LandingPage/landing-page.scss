@@ -1,0 +1,37 @@
+.landing-page {
+  .carousel {
+    position: relative;
+
+    .image {
+      width: 100%;
+      filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(180deg);
+      height: 1080px;
+      object-fit: cover;
+    }
+  }
+
+  .text {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    h1 {
+      font-size: 115px;
+      color: #fff;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 300px;
+      height: 70px;
+
+      span {
+        font-size: 24px;
+        font-weight: 500;
+      }
+    }
+  }
+}

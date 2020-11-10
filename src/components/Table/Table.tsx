@@ -1,4 +1,4 @@
-import React, { ReactElement, SyntheticEvent } from 'react';
+import React, { ReactElement, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Table, Space, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 
@@ -31,10 +31,10 @@ export default function CustomTable({
   title,
   pagination
 }: TableProps): ReactElement {
-
   const { Column } = Table;
+  const [allColumns, setAllColumns] = useState<ColumnsType>()
 
-  const getColumnsWithActions = (): ColumnsType => {
+  const getColumnsWithActions = useCallback((): ColumnsType => {
     let tempColumns = [...columns]; 
 
     const actionsColumn = {
@@ -68,9 +68,11 @@ export default function CustomTable({
 
     tempColumns.push(actionsColumn);
     return tempColumns;
-  }
+  }, [actions, columns]);
 
-  let allColumns = getColumnsWithActions();
+  useEffect(() => {
+    setAllColumns(getColumnsWithActions);
+  }, [getColumnsWithActions])
 
   return (
     <div>
@@ -81,7 +83,7 @@ export default function CustomTable({
         title={title}
         pagination={pagination}
       >
-        {allColumns.map((column: any) => {
+        {allColumns?.map((column: any) => {
           return(
             <Column 
               title={column.title} 

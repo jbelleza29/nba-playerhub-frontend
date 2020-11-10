@@ -45,7 +45,8 @@ export default function CreatePlayerModal({ visible, onCancel, onOk, initialValu
           setLoading(false);
         })
     } else if(type === 'edit'){
-      axios.put(`/players/${initialValue.id}`, values)
+      console.log(initialValue, 'init');
+      axios.put(`/players/${initialValue.player_id}`, values)
         .then((res) => {
           setCurrent(current + 1);
         })

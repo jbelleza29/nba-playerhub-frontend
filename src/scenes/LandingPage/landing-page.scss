@@ -1,4 +1,6 @@
 .landing-page {
+  position: relative;
+
   .carousel {
     position: relative;
 
@@ -18,7 +20,7 @@
     text-align: center;
 
     h1 {
-      font-size: 115px;
+      font-size: 100px;
       color: #fff;
       font-weight: 900;
       margin-bottom: 10px;

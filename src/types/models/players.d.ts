@@ -1,5 +1,5 @@
 interface Player {
-  id: number;
+  player_id: number;
   height_feet?: number;
   height_inches?: number;
   first_name: string;

@@ -35,7 +35,6 @@ export default function PlayersList(): ReactElement {
     const url = convertToQuery('/players', queryParams);
     axios.get(url)
       .then((res) => {
-        console.log(res);
         setTotal(res.data.total);
         setPlayers(res.data.players);
       })
@@ -56,7 +55,7 @@ export default function PlayersList(): ReactElement {
   }
 
   const showEdit = useCallback((e: SyntheticEvent, key: any): void => {
-    const player = players.find((x) => x.id === key);
+    const player = players.find((x) => x.player_id === key);
     setSelected(formatToFormData(player));
     setModal('edit');
   }, [players])
@@ -72,7 +71,7 @@ export default function PlayersList(): ReactElement {
 
   const viewPlayer = useCallback((e: SyntheticEvent, key: any): void => {
     // Show view player modal
-    const player = players.find((x) => x.id === key);
+    const player = players.find((x) => x.player_id === key);
     setSelected(player);
     setModal('view');
   }, [players])
@@ -100,11 +99,11 @@ export default function PlayersList(): ReactElement {
   }
 
   const onDelete = (key: number): Promise<void> => {
-    return axios.get(`/players/${key}`)
+    return axios.delete(`/players/${key}`)
       .then(() => {
         message.success('Player deleted!');
         let tempPlayers = [...players];
-        setPlayers(tempPlayers.filter((x) => x.id !== key));
+        setPlayers(tempPlayers.filter((x) => x.player_id !== key));
       })
       .catch(() => {
         message.error('Failed to delete player');
@@ -120,7 +119,7 @@ export default function PlayersList(): ReactElement {
 
   const actions: TableAction[] = [
     {
-      key: 'id',
+      key: 'player_id',
       tooltip: 'View',
       component: 'button',
       type: 'ghost', 
@@ -129,7 +128,7 @@ export default function PlayersList(): ReactElement {
       onClick: viewPlayer
     },
     {
-      key: 'id',
+      key: 'player_id',
       tooltip: 'Edit',
       component: 'button',
       type: 'default',
@@ -138,7 +137,7 @@ export default function PlayersList(): ReactElement {
       onClick: showEdit
     },
     {
-      key: 'id',
+      key: 'player_id',
       tooltip: 'Delete',
       component: 'button',
       type: 'ghost', 

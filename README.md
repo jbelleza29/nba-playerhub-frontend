@@ -1,7 +1,7 @@
 # NBA Player Hub Front End
 
 NBA Player Hub is built using React and Typescript.
-It also is uses [AntD](https://ant.design/) for its styling and design.
+It also uses [AntD](https://ant.design/) for its styling and design.
 
 
 ### Setup

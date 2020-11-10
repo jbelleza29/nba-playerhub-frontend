@@ -6,7 +6,7 @@ import { menuItems } from 'constants/layout';
 import './main-layout.scss';
 
 interface MainLayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default function MainLayout({ children }: MainLayoutProps): ReactElement {
@@ -25,7 +25,7 @@ export default function MainLayout({ children }: MainLayoutProps): ReactElement 
   return (
     <Layout className='main-layout'>
       <Header>
-        <div className='logo' onClick={onNavigateHome}/>
+        <div className='logo' onClick={onNavigateHome} role='img' aria-label='main logo' />
         <Menu theme='dark' mode='horizontal' onClick={onNavigateMenu}>
           {menuItems.map((item) => <Menu.Item key={item.key}>{item.label}</Menu.Item>)}
         </Menu>
